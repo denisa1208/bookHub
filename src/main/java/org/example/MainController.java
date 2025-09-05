@@ -20,7 +20,7 @@ public class MainController {
     @FXML
     private void handleCreateClick() {
         // Deocamdată mergem tot la aceeași pagină. Poți face alt FXML pentru înregistrare.
-        goTo("/fxml/autentificare.fxml", "Autentificare");
+        goTo("/fxml/creareCont.fxml", "CreareCont");
     }
 
     private void goTo(String fxml, String title) {
