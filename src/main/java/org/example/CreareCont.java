@@ -29,6 +29,7 @@ public class CreareCont {
             alert(Alert.AlertType.WARNING, "Completează utilizator și parolă.");
             return;
         }
+        //saas
 
         boolean ok = db.authenticate(u, p);
         if (ok) {
