@@ -1,20 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.AutentificareController">
+<VBox alignment="CENTER" spacing="25.0"
+      stylesheets="@../styles.css"
+      style="-fx-background-color: linear-gradient(to bottom, #33ccff 0%, #ff99cc 100%);"
+      xmlns="http://javafx.com/javafx/24.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.AutentificareController">
+
    <children>
-      <Label layoutX="22.0" layoutY="31.0" prefHeight="25.0" prefWidth="123.0" text=" Nume utilizator" />
-      <TextField layoutX="22.0" layoutY="57.0" />
-      <Label layoutX="22.0" layoutY="104.0" prefHeight="25.0" prefWidth="123.0" text="Adresa de email" />
-      <TextField layoutX="22.0" layoutY="130.0" />
-      <Label layoutX="22.0" layoutY="181.0" prefHeight="25.0" prefWidth="123.0" text="Parola" />
-      <TextField layoutX="22.0" layoutY="207.0" />
-      <Label layoutX="22.0" layoutY="266.0" prefHeight="25.0" prefWidth="123.0" text="Oras" />
-      <TextField layoutX="22.0" layoutY="292.0" />
-      <Button layoutX="22.0" layoutY="349.0" mnemonicParsing="false" text="Creare cont" />
+      <!-- Top spacer -->
+      <Region VBox.vgrow="SOMETIMES" />
+
+      <!-- Title -->
+      <Label text="Creare Cont Nou" styleClass="title-label">
+         <font><Font size="28.0"/></font>
+      </Label>
+
+      <!-- Form container -->
+      <VBox spacing="20.0" alignment="CENTER" maxWidth="350" minWidth="280">
+
+         <!-- Username field -->
+         <VBox spacing="8.0">
+            <Label text="Nume utilizator" styleClass="form-label">
+               <font><Font size="14.0"/></font>
+            </Label>
+            <TextField fx:id="usernameField" promptText="Introduceți numele de utilizator"
+                       styleClass="modern-textfield" minHeight="45"/>
+         </VBox>
+
+         <!-- Email field -->
+         <VBox spacing="8.0">
+            <Label text="Adresa de email" styleClass="form-label">
+               <font><Font size="14.0"/></font>
+            </Label>
+            <TextField fx:id="emailField" promptText="nume@email.com"
+                       styleClass="modern-textfield" minHeight="45"/>
+         </VBox>
+
+         <!-- Password field -->
+         <VBox spacing="8.0">
+            <Label text="Parola" styleClass="form-label">
+               <font><Font size="14.0"/></font>
+            </Label>
+            <PasswordField fx:id="passwordField" promptText="Introduceți parola"
+                           styleClass="modern-textfield" minHeight="45"/>
+         </VBox>
+
+         <!-- City field -->
+         <VBox spacing="8.0">
+            <Label text="Oraș" styleClass="form-label">
+               <font><Font size="14.0"/></font>
+            </Label>
+            <TextField fx:id="cityField" promptText="Orașul dumneavoastră"
+                       styleClass="modern-textfield" minHeight="45"/>
+         </VBox>
+
+         <!-- Buttons container -->
+         <VBox spacing="15.0" alignment="CENTER">
+            <Button fx:id="createAccountButton" text="Creare cont"
+                    styleClass="my-button" maxWidth="Infinity" minHeight="50"
+                    onAction="#handleCreateButtonAction">
+               <font><Font size="16.0"/></font>
+            </Button>
+
+            <Button fx:id="backButton" text="Înapoi"
+                    styleClass="secondary-button" maxWidth="Infinity" minHeight="45"
+                    onAction="#handleBackButtonAction">
+               <font><Font size="14.0"/></font>
+            </Button>
+         </VBox>
+      </VBox>
+
+      <!-- Bottom spacer -->
+      <Region VBox.vgrow="SOMETIMES" />
    </children>
-</AnchorPane>
+
+   <padding>
+      <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
+   </padding>
+</VBox>

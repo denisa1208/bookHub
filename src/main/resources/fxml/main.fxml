@@ -3,36 +3,48 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="20.0"
+<VBox alignment="CENTER" spacing="30.0"
+      stylesheets="@../styles.css"
       style="-fx-background-color: linear-gradient(to bottom, #33ccff 0%, #ff99cc 100%);"
       xmlns="http://javafx.com/javafx/24.0.1"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="org.example.MainController">
 
     <children>
-        <Label text="Bun venit la biblioteca ta virtuală!">
-            <font><Font size="20.0"/></font>
+        <!-- Top spacer for better centering -->
+        <Region VBox.vgrow="SOMETIMES" />
+
+        <!-- Title with responsive font size -->
+        <Label text="Bun venit la biblioteca ta virtuală!" styleClass="title-label">
+            <font><Font size="24.0"/></font>
         </Label>
 
-        <Button fx:id="myButton" alignment="CENTER"
-                onAction="#handleAuthClick"
-                prefHeight="40.0" prefWidth="160.0"
-                styleClass="my-button" text="Autentificare">
-            <font><Font size="14.0"/></font>
-        </Button>
+        <!-- Button container for consistent sizing -->
+        <VBox spacing="20.0" alignment="CENTER" maxWidth="280" minWidth="200">
+            <Button fx:id="myButton" alignment="CENTER"
+                    onAction="#handleAuthClick"
+                    maxWidth="Infinity" minHeight="55"
+                    styleClass="my-button" text="Autentificare">
+                <font><Font size="16.0"/></font>
+            </Button>
 
-        <Button fx:id="myButton1" alignment="CENTER"
-                onAction="#handleCreateClick"
-                prefHeight="40.0" prefWidth="160.0"
-                styleClass="my-button" text="Creare cont">
-            <font><Font size="14.0"/></font>
-        </Button>
+            <Button fx:id="myButton1" alignment="CENTER"
+                    onAction="#handleCreateClick"
+                    maxWidth="Infinity" minHeight="55"
+                    styleClass="my-button" text="Creare cont">
+                <font><Font size="16.0"/></font>
+            </Button>
+        </VBox>
+
+        <!-- Bottom spacer for better centering -->
+        <Region VBox.vgrow="SOMETIMES" />
     </children>
 
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0"/>
     </padding>
 </VBox>

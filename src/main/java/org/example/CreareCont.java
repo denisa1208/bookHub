@@ -39,7 +39,6 @@ public class CreareCont {
             alert(Alert.AlertType.ERROR, "Utilizator sau parolă greșite.");
         }
     }
-//scdsz
     private void alert(Alert.AlertType type, String text) {
         Alert a = new Alert(type);
         a.setHeaderText(null);
