@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 public class MainController {
+    private final DatabaseManager db = new DatabaseManager();
 
     @FXML private Button myButton;   // Autentificare
     @FXML private Button myButton1;  // Creare cont (deocamdată tot spre autentificare)
@@ -20,6 +21,8 @@ public class MainController {
     @FXML
     private void handleCreateClick() {
         // Deocamdată mergem tot la aceeași pagină. Poți face alt FXML pentru înregistrare.
+
+        db.displayAllUsers();
         goTo("/fxml/creareCont.fxml", "CreareCont");
     }
 
