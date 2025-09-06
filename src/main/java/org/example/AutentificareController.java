@@ -1,10 +1,14 @@
 package org.example;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class AutentificareController {
 
@@ -32,8 +36,10 @@ public class AutentificareController {
 
         boolean ok = db.authenticate(u, p);
         if (ok) {
-            alert(Alert.AlertType.INFORMATION, "Autentificare reușită. Salut, " + u + "!");
+            //alert(Alert.AlertType.INFORMATION, "Autentificare reușită. Salut, " + u + "!");
             // aici poți schimba view-ul către un dashboard
+
+            goTo("/fxml/dashboard.fxml", "Dashboard");
         } else {
             alert(Alert.AlertType.ERROR, "Utilizator sau parolă greșite.");
         }
@@ -44,5 +50,18 @@ public class AutentificareController {
         a.setHeaderText(null);
         a.setContentText(text);
         a.showAndWait();
+    }
+
+    private void goTo(String fxml, String title) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+            Parent root = loader.load();
+            Stage stage = (Stage) loginButton.getScene().getWindow();
+            stage.setScene(new Scene(root, 1000, 700));
+            stage.setTitle(title);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Eroare la încărcarea paginii: " + e.getMessage());
+        }
     }
 }
