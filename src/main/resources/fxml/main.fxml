@@ -3,45 +3,99 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="30.0"
-      stylesheets="@../styles.css"
-      style="-fx-background-color: linear-gradient(to bottom, #33ccff 0%, #ff99cc 100%);"
+<VBox alignment="CENTER" spacing="0"
+      styleClass="main-background"
       xmlns="http://javafx.com/javafx/24.0.1"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="org.example.MainController">
 
     <children>
-        <!-- Top spacer for better centering -->
-        <Region VBox.vgrow="SOMETIMES" />
+        <!-- Top spacer -->
+        <Region VBox.vgrow="ALWAYS" />
 
-        <!-- Title with responsive font size -->
-        <Label text="Bun venit la biblioteca ta virtuală!" styleClass="title-label">
-            <font><Font size="24.0"/></font>
-        </Label>
+        <!-- Main content container -->
+        <VBox alignment="CENTER" spacing="28" styleClass="glass-container"
+              maxWidth="440" minWidth="380">
 
-        <!-- Button container for consistent sizing -->
-        <VBox spacing="20.0" alignment="CENTER" maxWidth="280" minWidth="200">
-            <Button fx:id="myButton" alignment="CENTER"
-                    onAction="#handleAuthClick"
-                    maxWidth="Infinity" minHeight="55"
-                    styleClass="my-button" text="Autentificare">
-                <font><Font size="16.0"/></font>
-            </Button>
+            <!-- Header section -->
+            <VBox alignment="CENTER" spacing="12">
+                <!-- Book icon placeholder -->
+                <Label text="📚" styleClass="feature-icon2" >
+                </Label>
 
-            <Button fx:id="myButton1" alignment="CENTER"
-                    onAction="#handleCreateClick"
-                    maxWidth="Infinity" minHeight="55"
-                    styleClass="my-button" text="Creare cont">
-                <font><Font size="16.0"/></font>
-            </Button>
+                <!-- Hero title -->
+                <Label text="Biblioteca Ta Digitală" styleClass="hero-title" textAlignment="CENTER">
+                    <font><Font size="28.0"/></font>
+                </Label>
+
+                <!-- Subtitle -->
+                <Label text="Organizează, urmărește și descoperă cărți noi cu ușurință"
+                       styleClass="subtitle-text" textAlignment="CENTER" wrapText="true">
+                    <font><Font size="16.0"/></font>
+                </Label>
+            </VBox>
+
+            <!-- Action buttons container -->
+            <VBox spacing="16" alignment="CENTER" maxWidth="300">
+                <!-- Login button with icon -->
+                <HBox alignment="CENTER" spacing="12">
+                    <Button fx:id="myButton" alignment="CENTER"
+                            onAction="#handleAuthClick"
+                            maxWidth="Infinity" minHeight="54"
+                            styleClass="login-button">
+                        <graphic>
+                            <HBox alignment="CENTER" spacing="8">
+                                <Label text="🔐" style="-fx-font-size: 16px; -fx-text-fill: white;"/>
+                                <Label text="Autentificare" style="-fx-font-size: 16px; -fx-text-fill: white; -fx-font-weight: 600;"/>
+                            </HBox>
+                        </graphic>
+                    </Button>
+                </HBox>
+
+                <!-- Register button with icon -->
+                <HBox alignment="CENTER" spacing="12">
+                    <Button fx:id="myButton1" alignment="CENTER"
+                            onAction="#handleCreateClick"
+                            maxWidth="Infinity" minHeight="54"
+                            styleClass="register-button">
+                        <graphic>
+                            <HBox alignment="CENTER" spacing="8">
+                                <Label text="✨" style="-fx-font-size: 16px; -fx-text-fill: #333;"/>
+                                <Label text="Înregistrare Nouă" style="-fx-font-size: 16px; -fx-text-fill: #333; -fx-font-weight: 500;"/>
+                            </HBox>
+                        </graphic>
+                    </Button>
+                </HBox>
+            </VBox>
+
+            <!-- Feature highlights -->
+            <HBox spacing="20" alignment="CENTER">
+                <VBox alignment="CENTER" spacing="6">
+                    <Label text="📖" styleClass="feature-icon"/>
+                    <Label text="Colecții" styleClass="feature-text"/>
+                </VBox>
+                <VBox alignment="CENTER" spacing="6">
+                    <Label text="⭐" styleClass="feature-icon"/>
+                    <Label text="Recenzii" styleClass="feature-text"/>
+                </VBox>
+                <VBox alignment="CENTER" spacing="6">
+                    <Label text="🎯" styleClass="feature-icon"/>
+                    <Label text="Obiective" styleClass="feature-text"/>
+                </VBox>
+            </HBox>
+
+            <padding>
+                <Insets bottom="35.0" left="35.0" right="35.0" top="35.0"/>
+            </padding>
         </VBox>
 
-        <!-- Bottom spacer for better centering -->
-        <Region VBox.vgrow="SOMETIMES" />
+        <!-- Bottom spacer -->
+        <Region VBox.vgrow="ALWAYS" />
     </children>
 
     <padding>

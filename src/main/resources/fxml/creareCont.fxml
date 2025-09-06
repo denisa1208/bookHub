@@ -1,24 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.CreareCont">
+<VBox alignment="CENTER" spacing="25.0"
+      stylesheets="@../styles.css"
+      styleClass="main-background"
+      xmlns="http://javafx.com/javafx/24.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.CreareCont">
+
    <children>
-      <Label layoutX="22.0" layoutY="31.0" prefHeight="25.0" prefWidth="123.0" text=" Nume utilizator" />
-      <TextField fx:id="usernameField" layoutX="22.0" layoutY="57.0" />
-      <Label layoutX="22.0" layoutY="104.0" prefHeight="25.0" prefWidth="123.0" text="Adresa de email" />
-      <TextField fx:id="emailField" layoutX="22.0" layoutY="130.0" />
-      <Label layoutX="22.0" layoutY="181.0" prefHeight="25.0" prefWidth="123.0" text="Parola" />
-      <Label layoutX="22.0" layoutY="266.0" prefHeight="25.0" prefWidth="123.0" text="Oras" />
-      <TextField fx:id="cityField" layoutX="22.0" layoutY="292.0" />
-      <Button layoutX="22.0" layoutY="349.0" mnemonicParsing="false" onAction="#handleCreateButtonAction" text=" Creare cont" />
-      <PasswordField fx:id="passwordField" layoutX="23.0" layoutY="223.0" />
-      <Button layoutX="504.0" layoutY="349.0" mnemonicParsing="false" onAction="#handleBackButtonAction" text="Inapoi" />
-      <ComboBox fx:id="boxField" layoutX="353.0" layoutY="57.0" prefWidth="150.0" promptText="Statut" />
+      <!-- Top spacer -->
+      <Region VBox.vgrow="SOMETIMES" />
+
+      <!-- Form container with glass effect -->
+      <VBox spacing="25.0" alignment="CENTER" styleClass="glass-container"
+            maxWidth="480" minWidth="400">
+
+         <!-- Header section -->
+         <VBox alignment="CENTER" spacing="10">
+            <Label text="👤" style="-fx-font-size: 36px;">
+            </Label>
+            <Label text="Creare Cont Nou" styleClass="hero-title">
+               <font><Font size="26.0"/></font>
+            </Label>
+            <Label text="Alătură-te comunității noastre de cititori" styleClass="subtitle-text">
+               <font><Font size="14.0"/></font>
+            </Label>
+         </VBox>
+
+         <!-- First row: Username and Status -->
+         <HBox spacing="15.0" alignment="CENTER">
+            <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+               <Label text="Nume utilizator" styleClass="form-label">
+                  <font><Font size="14.0"/></font>
+               </Label>
+               <TextField fx:id="usernameField" promptText="Introduceți numele de utilizator"
+                          styleClass="modern-textfield" minHeight="48"/>
+            </VBox>
+
+            <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+               <Label text="Statut" styleClass="form-label">
+                  <font><Font size="14.0"/></font>
+               </Label>
+               <ComboBox fx:id="boxField" promptText="Selectați statutul"
+                         styleClass="modern-combobox" minHeight="48" maxWidth="Infinity"/>
+            </VBox>
+         </HBox>
+
+         <!-- Email and City row -->
+         <HBox spacing="15.0" alignment="CENTER">
+            <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+               <Label text="Adresa de email" styleClass="form-label">
+                  <font><Font size="14.0"/></font>
+               </Label>
+               <TextField fx:id="emailField" promptText="nume@email.com"
+                          styleClass="modern-textfield" minHeight="48"/>
+            </VBox>
+
+            <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+               <Label text="Oraș" styleClass="form-label">
+                  <font><Font size="14.0"/></font>
+               </Label>
+               <TextField fx:id="cityField" promptText="Orașul dumneavoastră"
+                          styleClass="modern-textfield" minHeight="48"/>
+            </VBox>
+         </HBox>
+
+         <!-- Password field -->
+         <VBox spacing="8.0">
+            <Label text="Parola" styleClass="form-label">
+               <font><Font size="14.0"/></font>
+            </Label>
+            <PasswordField fx:id="passwordField" promptText="Introduceți parola"
+                           styleClass="modern-textfield" minHeight="48"/>
+         </VBox>
+
+         <!-- Buttons container -->
+         <HBox spacing="15.0" alignment="CENTER">
+            <Button fx:id="createButton" text="Creare cont"
+                    styleClass="register-button" minHeight="52" prefWidth="160"
+                    onAction="#handleCreateButtonAction">
+               <font><Font size="16.0"/></font>
+            </Button>
+
+            <Button fx:id="backButton" text="Înapoi"
+                    styleClass="secondary-button" minHeight="52" prefWidth="120"
+                    onAction="#handleBackButtonAction">
+               <font><Font size="14.0"/></font>
+            </Button>
+         </HBox>
+
+         <padding>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
+         </padding>
+      </VBox>
+
+      <!-- Bottom spacer -->
+      <Region VBox.vgrow="SOMETIMES" />
    </children>
-</AnchorPane>
+
+   <padding>
+      <Insets bottom="40.0" left="40.0" right="40.0" top="40.0"/>
+   </padding>
+</VBox>

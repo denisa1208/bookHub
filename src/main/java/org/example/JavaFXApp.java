@@ -18,8 +18,8 @@ public class JavaFXApp extends Application {
         primaryStage.setTitle("Biblioteca Mea - JavaFX");
 
         //min size
-        primaryStage.setMinWidth(600);
-        primaryStage.setMinHeight(400);
+        primaryStage.setMinWidth(50);
+        primaryStage.setMinHeight(50);
 
         //enable fullscrean and maximize
         primaryStage.setMaximized(false);
@@ -29,19 +29,38 @@ public class JavaFXApp extends Application {
     }
 
     public static void setRoot(String fxml) throws Exception {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(JavaFXApp.class.getResource("/fxml/main.fxml")));        //Parent root = FXMLLoader.load(JavaFXApp.class.getResource("/fxml/" + fxml + ".fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(JavaFXApp.class.getResource("/fxml/" + fxml + ".fxml")));
         Scene scene = primaryStage.getScene();
+
+        double currentWidth = primaryStage.getWidth();
+        double currentHeight = primaryStage.getHeight();
+        boolean isMaximized = primaryStage.isMaximized();
+        boolean isFullScreen = primaryStage.isFullScreen();
+
         if (scene == null) {
-            scene = new Scene(root, 900, 650);
+            scene = new Scene(root, 50, 50);
             // (opțional) CSS global:
             scene.getStylesheets().add(Objects.requireNonNull(JavaFXApp.class.getResource("/styles.css")).toExternalForm());
             primaryStage.setScene(scene);
         } else {
             scene.setRoot(root);
+            primaryStage.setWidth(50);
+            primaryStage.setHeight(50);
+            String cssPath = Objects.requireNonNull(JavaFXApp.class.getResource("/styles.css")).toExternalForm();
+            if (!scene.getStylesheets().contains(cssPath)) {
+                scene.getStylesheets().add(cssPath);
+            }
         }
-
-        scene.getStylesheets().clear();
-        scene.getStylesheets().add(Objects.requireNonNull(JavaFXApp.class.getResource("/styles.css")).toExternalForm());
+        //scene.getStylesheets().clear();
+        //scene.getStylesheets().add(Objects.requireNonNull(JavaFXApp.class.getResource("/styles.css")).toExternalForm());
+        if (isFullScreen) {
+            primaryStage.setFullScreen(true);
+        } else if (isMaximized) {
+            primaryStage.setMaximized(true);
+        } else {
+            primaryStage.setWidth(currentWidth);
+            primaryStage.setHeight(currentHeight);
+        }
     }
 
     public static void main(String[] args) {
