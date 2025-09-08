@@ -28,12 +28,102 @@ public class DatabaseManager {
                     admin_user VARCHAR(100)
                 )
             """;
+
+
+            String createBooksTable = """
+            CREATE TABLE IF NOT EXISTS books (
+                id VARCHAR(50) PRIMARY KEY,
+                title VARCHAR(255),
+                authors VARCHAR(255),
+                publisher VARCHAR(255),
+                description TEXT,
+                page_count INT,
+                average_rating DOUBLE
+            )
+        """;
+
+            String createUserBooksTable = """
+            CREATE TABLE IF NOT EXISTS user_books (
+                id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                user_id BIGINT,
+                book_id VARCHAR(50),
+                status VARCHAR(50) DEFAULT 'owned',
+                is_favorite BOOLEAN DEFAULT FALSE,
+                date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id),
+                UNIQUE(user_id, book_id)
+            )
+        """;
+
+            st.execute(createBooksTable);
+            st.execute(createUserBooksTable);
+
             st.execute(createTable);
 
             createDefaultUser(conn); // user demo
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    // salveaza cartea in baza de date
+    public boolean saveBook(Book book) {
+        String sql = "INSERT OR REPLACE INTO books(id, title, authors, publisher, description, page_count, average_rating) VALUES (?,?,?,?,?,?,?)";
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, book.getId());
+            ps.setString(2, book.getTitle());
+            ps.setString(3, book.getAuthors());
+            ps.setString(4, book.getPublisher());
+            ps.setString(5, book.getDescription());
+            ps.setInt(6, book.getPageCount());
+            ps.setDouble(7, book.getAverageRating());
+            ps.executeUpdate();
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    // adauga cartea la biblioteca utilizatorului cu is_fav = false
+    public boolean addBookToUserLibrary(long user_id, String book_id, boolean is_favorite) {
+        String sql = """
+        MERGE INTO user_books(user_id, book_id, is_favorite, status) 
+        KEY(user_id, book_id) 
+        VALUES (?, ?, ?, 'owned')
+        """;
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, user_id);
+            ps.setString(2, book_id);
+            ps.setBoolean(3, is_favorite);
+            ps.executeUpdate();
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // metoda pentru a adauga la favorite o carte
+    public boolean updateBookFavoriteStatus(long user_id, String book_id, boolean is_favorite) {
+        String sql = "UPDATE user_books SET is_favorite = ? WHERE user_id = ? AND book_id = ?";
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setBoolean(1, is_favorite);
+            ps.setLong(2, user_id);
+            ps.setString(3, book_id);
+            int rowsUpdated = ps.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
@@ -56,6 +146,43 @@ public class DatabaseManager {
                 }
             }
         }
+    }
+
+    // verif daca cartea e deja in biblioteca utilizatorului
+    public boolean isBookInUserLibrary(long user_id, String book_id) {
+        String sql = "SELECT 1 FROM user_books WHERE user_id = ? AND book_id = ?";
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, user_id);
+            ps.setString(2, book_id);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // obtine id-ul userului
+    public long getUserId(String username) {
+        String sql = "SELECT id FROM users WHERE username = ?";
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getLong("id");
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return -1;
     }
 
     public boolean authenticate(String username, String plainPassword) {

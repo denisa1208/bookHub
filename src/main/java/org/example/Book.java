@@ -1,5 +1,7 @@
 package org.example;
 
+import javafx.fxml.FXML;
+
 public class Book {
     private String id;
     private String title;
@@ -8,6 +10,7 @@ public class Book {
     private String description;
     private int pageCount;
     private double averageRating;
+
 
     // Constructor implicit
     public Book() {}

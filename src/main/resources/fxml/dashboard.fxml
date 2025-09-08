@@ -14,11 +14,11 @@
         <Label text="Bun venit la biblioteca ta virtuală!">
             <font><Font size="20.0" /></font>
         </Label>
-      <TextField promptText="Search books..." />
+      <TextField fx:id="searchField" promptText="Search books..." />
       <HBox prefHeight="33.0" prefWidth="258.0" />
-      <Button mnemonicParsing="false" text="Search" />
+      <Button fx:id="myButtonS" mnemonicParsing="false" text="Search" onAction="#handleSearch" />
 
-        <Button fx:id="myButton" alignment="CENTER"  prefHeight="40.0" prefWidth="160.0" styleClass="my-button" text="My books">
+        <Button fx:id="categoriesButton"  alignment="CENTER"  prefHeight="40.0" prefWidth="160.0" styleClass="my-button" text="Categories" onAction="#handleCategories">
             <font><Font size="14.0" /></font>
         </Button>
 

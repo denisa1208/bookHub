@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox spacing="20.0" style="-fx-background-color: linear-gradient(to bottom, #33ccff 0%, #ff99cc 100%);"
+      xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.CategoriesController">
+
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+
+    <children>
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="20.0">
+            <children>
+                <Button text="← Înapoi" onAction="#handleBack"
+                        style="-fx-background-color: rgba(255,255,255,0.3); -fx-text-fill: white;"/>
+                <Label text="Categories" textFill="white">
+                    <font><Font name="System Bold" size="22.0"/></font>
+                </Label>
+            </children>
+        </HBox>
+
+        <!-- Grid cu categorii -->
+        <GridPane hgap="15.0" vgap="15.0" alignment="CENTER">
+            <children>
+                <Button text="Cooking" onAction="#handleCooking" prefWidth="150.0" prefHeight="60.0"
+                        GridPane.columnIndex="0" GridPane.rowIndex="0"
+                        style="-fx-background-color: #ff6b6b; -fx-text-fill: white; -fx-font-size: 14; -fx-background-radius: 10;"/>
+
+                <Button text="Programming" onAction="#handleProgramming" prefWidth="150.0" prefHeight="60.0"
+                        GridPane.columnIndex="1" GridPane.rowIndex="0"
+                        style="-fx-background-color: #4ecdc4; -fx-text-fill: white; -fx-font-size: 14; -fx-background-radius: 10;"/>
+
+                <Button text="Fiction" onAction="#handleFiction" prefWidth="150.0" prefHeight="60.0"
+                        GridPane.columnIndex="0" GridPane.rowIndex="1"
+                        style="-fx-background-color: #45b7d1; -fx-text-fill: white; -fx-font-size: 14; -fx-background-radius: 10;"/>
+
+                <Button text="Science" onAction="#handleScience" prefWidth="150.0" prefHeight="60.0"
+                        GridPane.columnIndex="1" GridPane.rowIndex="1"
+                        style="-fx-background-color: #f9ca24; -fx-text-fill: white; -fx-font-size: 14; -fx-background-radius: 10;"/>
+
+                <Button text="History" onAction="#handleHistory" prefWidth="150.0" prefHeight="60.0"
+                        GridPane.columnIndex="0" GridPane.rowIndex="2"
+                        style="-fx-background-color: #6c5ce7; -fx-text-fill: white; -fx-font-size: 14; -fx-background-radius: 10;"/>
+
+                <Button text="Self-Help" onAction="#handleSelfHelp" prefWidth="150.0" prefHeight="60.0"
+                        GridPane.columnIndex="1" GridPane.rowIndex="2"
+                        style="-fx-background-color: #fd79a8; -fx-text-fill: white; -fx-font-size: 14; -fx-background-radius: 10;"/>
+            </children>
+        </GridPane>
+
+        <!-- Zona pentru afișarea cărților -->
+        <Label fx:id="categoryTitle" text="" textFill="white">
+            <font><Font name="System Bold" size="18.0"/></font>
+        </Label>
+
+        <ScrollPane fitToWidth="true" prefHeight="300.0" style="-fx-background: transparent;">
+            <content>
+                <FlowPane fx:id="booksContainer" hgap="15.0" vgap="15.0" alignment="CENTER"
+                          style="-fx-background-color: rgba(255,255,255,0.1); -fx-padding: 15; -fx-background-radius: 10;"/>
+            </content>
+        </ScrollPane>
+    </children>
+</VBox>
