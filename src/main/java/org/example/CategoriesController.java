@@ -30,7 +30,7 @@ public class CategoriesController {
 
 
     private String getCurrentUsername() {
-        return currentUsername;
+        return UserSession.getInstance().getCurrentUsername();
     }
 
     private GoogleBooksAPI googleBooksAPI = new GoogleBooksAPI();
@@ -136,11 +136,6 @@ public class CategoriesController {
 
         card.getChildren().addAll(imageLabel, titleLabel, authorLabel);
 
-        // Click event
-        card.setOnMouseClicked(e -> {
-            System.out.println("Clicked on: " + book.getTitle());
-            // Aici poți deschide o fereastră cu detalii despre carte
-        });
 
         card.setOnMouseClicked(e -> {
             try {
@@ -148,7 +143,7 @@ public class CategoriesController {
                 Parent root = loader.load();
 
                 BookDetailsController controller = loader.getController();
-                controller.setBookData(book, getCurrentUsername()); // Implementează această metodă
+                controller.setBookData(book, getCurrentUsername());
 
                 Stage stage = (Stage) card.getScene().getWindow();
                 stage.setScene(new Scene(root, 800, 600));

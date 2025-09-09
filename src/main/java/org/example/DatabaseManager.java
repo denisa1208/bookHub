@@ -2,7 +2,9 @@ package org.example;
 
 import java.security.MessageDigest;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 public class DatabaseManager {
     // H2 file DB în folderul proiectului (persitentă pe disc)
@@ -69,7 +71,7 @@ public class DatabaseManager {
 
     // salveaza cartea in baza de date
     public boolean saveBook(Book book) {
-        String sql = "INSERT OR REPLACE INTO books(id, title, authors, publisher, description, page_count, average_rating) VALUES (?,?,?,?,?,?,?)";
+        String sql = "MERGE INTO books(id, title, authors, publisher, description, page_count, average_rating) VALUES (?,?,?,?,?,?,?)";
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, book.getId());
@@ -81,7 +83,6 @@ public class DatabaseManager {
             ps.setDouble(7, book.getAverageRating());
             ps.executeUpdate();
             return true;
-
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -307,5 +308,75 @@ public class DatabaseManager {
             e.printStackTrace();
         }
     }
+
+
+    // toate cartile din lista utilizatorului
+    public List<Book> getUserBooks(long user_id) {
+            List<Book> books = new ArrayList<>();
+            String sql = """
+            SELECT b.* FROM books b 
+            JOIN user_books ub ON b.id = ub.book_id 
+            WHERE ub.user_id = ?
+        """;
+
+            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setLong(1, user_id);
+                try (ResultSet rs = ps.executeQuery()) {
+
+                    while (rs.next()) {
+                        Book book = new Book();
+                        book.setAuthors(rs.getString("authors"));
+                        book.setTitle(rs.getString("title"));
+                        book.setDescription(rs.getString("description"));
+                        book.setPublisher(rs.getString("publisher"));
+                        book.setId(rs.getString("id"));
+                        book.setAverageRating(rs.getDouble("average_rating"));
+                        book.setPageCount(rs.getInt("page_count"));
+                        books.add(book);
+                    }
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            }
+            return books;
+    }
+
+    // toate cartile favorite din lista utilizatorului
+    public List<Book> getUserFavoriteBooks(long user_id) {
+        List<Book> books = new ArrayList<>();
+        String sql = """
+        SELECT b.* FROM books b 
+        JOIN user_books ub ON b.id = ub.book_id 
+        WHERE ub.user_id = ? AND ub.is_favorite = true
+    """;
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, user_id);
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    Book book = new Book();
+                    book.setAuthors(rs.getString("authors"));
+                    book.setTitle(rs.getString("title"));
+                    book.setDescription(rs.getString("description"));
+                    book.setPublisher(rs.getString("publisher"));
+                    book.setId(rs.getString("id"));
+                    book.setAverageRating(rs.getDouble("average_rating"));
+                    book.setPageCount(rs.getInt("page_count"));
+                    books.add(book);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return books;
+    }
+
 }
 

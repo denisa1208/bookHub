@@ -11,7 +11,8 @@ import java.util.ResourceBundle;
 public class BookDetailsController implements Initializable {
 
     @FXML private Label descriptionLabel;
-    @FXML private Button backBtn;
+    @FXML private Button bckBtn;
+
     @FXML private Button addToLibraryBtn;
     @FXML private Button addToFavoritesBtn;
     @FXML private Label titleLabel;
@@ -36,9 +37,18 @@ public class BookDetailsController implements Initializable {
 
 
     @FXML
-    private void handleBack() {
+    private void handleBackCategories() {
         try {
             JavaFXApp.setRoot("categories");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleBackDashboard() {
+        try {
+            JavaFXApp.setRoot("dashboard");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -63,6 +73,7 @@ public class BookDetailsController implements Initializable {
 
     @FXML
     private void handleAddToFavorites() {
+        System.out.println(currentBook + " cartea " + currentUsername);
         if (currentBook == null || currentUsername == null) return;
 
         if (db.saveBook(currentBook)) {
@@ -88,7 +99,7 @@ public class BookDetailsController implements Initializable {
 
     public void setBookData(Book book, String username) {
         this.currentBook = book;
-        this.currentUsername = username;
+        this.currentUsername = UserSession.getInstance().getCurrentUsername();
 
         titleLabel.setText(book.getTitle());
         authorsLabel.setText("Autor: " + (book.getAuthors() != null ? book.getAuthors() : "Necunoscut"));

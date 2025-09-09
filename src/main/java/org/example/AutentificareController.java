@@ -36,8 +36,13 @@ public class AutentificareController {
 
         boolean ok = db.authenticate(u, p);
         if (ok) {
-            //alert(Alert.AlertType.INFORMATION, "Autentificare reușită. Salut, " + u + "!");
-            // aici poți schimba view-ul către un dashboard
+            // Creează obiectul User
+            User user = new User();
+            user.setUsername(u);
+            user.setId(db.getUserId(u));
+
+            // Setează utilizatorul în sesiune
+            UserSession.getInstance().setCurrentUser(user);
 
             goTo("/fxml/dashboard.fxml", "Dashboard");
         } else {

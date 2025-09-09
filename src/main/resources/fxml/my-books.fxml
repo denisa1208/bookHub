@@ -1,14 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0" >
+<VBox spacing="20.0" style="-fx-background: linear-gradient(to bottom, #33ccff 0%, #ff99cc 100%);"
+      xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.MyBooksController">
 
-</AnchorPane>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+
+    <children>
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="20.0">
+            <children>
+                <Button text="← Înapoi" onAction="#handleBackDashboard"
+                        style="-fx-background-color: rgba(255,255,255,0.3); -fx-text-fill: white; -fx-background-radius: 8;"/>
+                <Label fx:id="titleLabel" text="Biblioteca Mea" textFill="white">
+                    <font><Font name="System Bold" size="22.0"/></font>
+                </Label>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <Label fx:id="countLabel" text="0 cărți" textFill="white">
+                    <font><Font size="14.0"/></font>
+                </Label>
+            </children>
+        </HBox>
+
+        <!-- Books List -->
+        <ScrollPane fitToWidth="true" prefHeight="500.0" style="-fx-background: transparent;">
+            <content>
+                <ListView fx:id="booksListView"
+                          style="-fx-background-color: transparent; -fx-border-color: transparent;"
+                          prefHeight="500.0">
+                </ListView>
+            </content>
+        </ScrollPane>
+    </children>
+</VBox>
