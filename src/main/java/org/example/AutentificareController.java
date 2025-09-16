@@ -69,4 +69,14 @@ public class AutentificareController {
             System.out.println("Eroare la încărcarea paginii: " + e.getMessage());
         }
     }
+
+    @FXML
+    private void focusPasswordField() {
+        passwordField.requestFocus();
+    }
+
+    @FXML
+    private void focusAuthField() {
+        loginButton.requestFocus();
+    }
 }

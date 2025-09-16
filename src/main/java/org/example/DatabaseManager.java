@@ -112,6 +112,24 @@ public class DatabaseManager {
         }
     }
 
+    public boolean deleteBookFromUserLibrary(long user_id, String book_id) {
+        String sql = "DELETE FROM user_books WHERE user_id = ? AND book_id = ?";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setLong(1, user_id);
+            ps.setString(2, book_id);
+
+            int rowsDeleted = ps.executeUpdate();
+            return rowsDeleted > 0; // Returnează true dacă s-a șters măcar o înregistrare
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     // metoda pentru a adauga la favorite o carte
     public boolean updateBookFavoriteStatus(long user_id, String book_id, boolean is_favorite) {
         String sql = "UPDATE user_books SET is_favorite = ? WHERE user_id = ? AND book_id = ?";
@@ -377,6 +395,44 @@ public class DatabaseManager {
         }
         return books;
     }
+
+
+    // Verifică dacă cartea este marcată ca favorită
+    public boolean isBookFavorite(long userId, String bookId) {
+        String sql = "SELECT is_favorite FROM user_books WHERE user_id = ? AND book_id = ?";
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, userId);
+            ps.setString(2, bookId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBoolean("is_favorite");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // Șterge cartea de la favorite (setează is_favorite = false)
+    public boolean removeFromFavorites(long userId, String bookId) {
+        String sql = "UPDATE user_books SET is_favorite = false WHERE user_id = ? AND book_id = ?";
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setBoolean(1, false);
+            ps.setLong(2, userId);
+            ps.setString(3, bookId);
+            int rowsUpdated = ps.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
 
 }
 

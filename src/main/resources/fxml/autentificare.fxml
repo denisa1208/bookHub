@@ -40,7 +40,7 @@
                   <font><Font size="14.0"/></font>
                </Label>
                <TextField fx:id="usernameField" promptText="Introduceți numele de utilizator"
-                          styleClass="modern-textfield" minHeight="48"/>
+                          styleClass="modern-textfield" minHeight="48" onAction="#focusPasswordField" />
             </VBox>
 
             <!-- Password field -->
@@ -49,7 +49,7 @@
                   <font><Font size="14.0"/></font>
                </Label>
                <PasswordField fx:id="passwordField" promptText="Introduceți parola"
-                              styleClass="modern-textfield" minHeight="48"/>
+                              styleClass="modern-textfield" minHeight="48" onAction="#focusAuthField"/>
             </VBox>
          </VBox>
 

@@ -37,9 +37,9 @@ public class BookDetailsController implements Initializable {
 
 
     @FXML
-    private void handleBackCategories() {
+    private void handleBack() {
         try {
-            JavaFXApp.setRoot("categories");
+            JavaFXApp.setRoot("my-books");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -55,19 +55,17 @@ public class BookDetailsController implements Initializable {
     }
 
     @FXML
-    private void handleAddToLibrary() {
+    private void handleDelete() {
         if (currentBook == null || currentUsername == null) return;
 
-        // Salvează cartea în baza de date
-        if (db.saveBook(currentBook)) {
-            long userId = db.getUserId(currentUsername);
-            if (userId != -1 && db.addBookToUserLibrary(userId, currentBook.getId(), false)) {
-                addToLibraryBtn.setText("În bibliotecă ✓");
-                addToLibraryBtn.setDisable(true);
-                showAlert("Succes", "Cartea a fost adăugată în biblioteca ta!");
-            } else {
-                showAlert("Eroare", "Nu s-a putut adăuga cartea în bibliotecă.");
-            }
+        long userId = db.getUserId(currentUsername);
+        if (userId != -1 && db.deleteBookFromUserLibrary(userId, currentBook.getId())) {
+            // Actualizează interfața după ștergere
+            addToLibraryBtn.setText("Adaugă în bibliotecă");
+            addToLibraryBtn.setDisable(false);
+            showAlert("Succes", "Cartea a fost ștearsă din biblioteca ta!");
+        } else {
+            showAlert("Eroare", "Nu s-a putut șterge cartea din bibliotecă.");
         }
     }
 
@@ -113,6 +111,82 @@ public class BookDetailsController implements Initializable {
         if (userId != -1 && db.isBookInUserLibrary(userId, book.getId())) {
             addToLibraryBtn.setText("În bibliotecă ✓");
             addToLibraryBtn.setDisable(true);
+        }
+    }
+
+
+    @FXML
+    private void handleFavoriteAction() {
+        if (currentBook == null || currentUsername == null) return;
+
+        long userId = db.getUserId(currentUsername);
+        if (userId == -1) return;
+
+        boolean isFavorite = db.isBookFavorite(userId, currentBook.getId());
+
+        if (!isFavorite) {
+            // Șterge de la favorite
+            if (db.removeFromFavorites(userId, currentBook.getId())) {
+                updateFavoriteButton(false);
+                showAlert("Succes", "Cartea a fost ștearsă de la favorite!");
+            } else {
+                showAlert("Eroare", "Nu s-a putut șterge cartea de la favorite.");
+            }
+        } else {
+            // Adaugă la favorite
+            if (db.saveBook(currentBook) && db.addBookToUserLibrary(userId, currentBook.getId(), true)) {
+                updateFavoriteButton(true);
+                showAlert("Succes", "Cartea a fost adăugată la favorite!");
+            } else {
+                showAlert("Eroare", "Nu s-a putut adăuga cartea la favorite.");
+            }
+        }
+    }
+
+    // Metodă helper pentru actualizarea butonului de favorite
+    private void updateFavoriteButton(boolean isFavorite) {
+        if (isFavorite) {
+            addToFavoritesBtn.setText("Șterge de la favorite");
+            addToFavoritesBtn.setStyle("-fx-background-color: #6c757d; -fx-text-fill: white; -fx-background-radius: 8; -fx-font-size: 14;");
+        } else {
+            addToFavoritesBtn.setText("Adaugă la favorite");
+            addToFavoritesBtn.setStyle("-fx-background-color: #dc3545; -fx-text-fill: white; -fx-background-radius: 8; -fx-font-size: 14;");
+        }
+    }
+
+    @FXML
+    private void handleLibraryAction() {
+        if (currentBook == null || currentUsername == null) return;
+
+        long userId = db.getUserId(currentUsername);
+        if (userId == -1) return;
+
+        boolean isInLibrary = db.isBookInUserLibrary(userId, currentBook.getId());
+
+        if (isInLibrary) {
+            // Șterge din bibliotecă
+            if (db.deleteBookFromUserLibrary(userId, currentBook.getId())) {
+                updateLibraryButton(false);
+                showAlert("Succes", "Cartea a fost ștearsă din biblioteca ta!");
+            } else {
+                showAlert("Eroare", "Nu s-a putut șterge cartea din bibliotecă.");
+            }
+        } else {
+            // Adaugă în bibliotecă
+            if (db.saveBook(currentBook) && db.addBookToUserLibrary(userId, currentBook.getId(), false)) {
+                updateLibraryButton(true);
+                showAlert("Succes", "Cartea a fost adăugată în biblioteca ta!");
+            }
+        }
+    }
+
+    private void updateLibraryButton(boolean isInLibrary) {
+        if (isInLibrary) {
+            addToLibraryBtn.setText("Șterge din biblioteca");
+            addToLibraryBtn.setStyle("-fx-background-color: #6c757d; -fx-text-fill: white; -fx-background-radius: 8; -fx-font-size: 14;");
+        } else {
+            addToLibraryBtn.setText("Adauga in biblioteca");
+            addToLibraryBtn.setStyle("-fx-background-color: #dc3545; -fx-text-fill: white; -fx-background-radius: 8; -fx-font-size: 14;");
         }
     }
 

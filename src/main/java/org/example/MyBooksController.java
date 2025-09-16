@@ -138,7 +138,7 @@ public class MyBooksController implements Initializable {
     }
 
     @FXML
-    private void handleBackDashboard() {
+    private void handleBack() {
         try {
             JavaFXApp.setRoot("dashboard");
         } catch (Exception e) {
